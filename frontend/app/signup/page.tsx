@@ -1,23 +1,26 @@
+"use client"
 import React, { useState } from 'react'
 import axios from 'axios';
-import Router from 'next/router'
+import { useRouter } from 'next/navigation';
 
-export default function index() {
+async function handleSubmit(email,password,router){
+    await axios.post("http://localhost:8000/signup",{
+        email : email,
+        password : password
+    }).then(function(res){
+        console.log(res);
+        if (res.data.message == "success"){
+            router.push("/signin");
+        }
+    }).catch(function(error){
+        console.log(error);
+    })
+}
+
+export default function Signup() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-    function handleSubmit(){
-        axios.post("http://localhost:8000/signup",{
-            email : email,
-            password : password
-        }).then(function(res){
-            console.log(res);
-            if (res.data.message == "success"){
-                Router.push("/signin");
-            }
-        }).catch(function(error){
-            console.log(error);
-        })
-    }
+    const router = useRouter()
   return (
     <div>
          <section class="bg-gray-50 dark:bg-gray-900">
@@ -36,7 +39,7 @@ export default function index() {
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                             <input onChange={(e) => setPassword(e.target.value)}  type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""></input>
                         </div>
-                        <button onClick={handleSubmit} type="submit" class="w-full text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                        <button onClick={() => handleSubmit(email,password,router)} type="submit" class="w-full text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                     </form>
                 </div>
             </div>
