@@ -34,8 +34,11 @@ const login = function(req,res,next){
     User.findOne({$or : [{email : email},{password : password}]})
     .then(user => {
         if (user){
-            let token = generateAccessToken({email : email})
-            res.json(token);
+            // let token = generateAccessToken({email : email})
+            // res.json(token);
+            res.json({
+                message : "success"
+            })
         }
         else {
             res.json({
