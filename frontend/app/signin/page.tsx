@@ -3,13 +3,14 @@
 import React,{useState} from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
+import { signIn } from "next-auth/react"
 async function handleSubmit(email,password,router){
     await axios.post("http://localhost:8000/signin",{
         email : email,
         password : password
     }).then(function(res){
-        sessionStorage.setItem("token",res.data);
+        // sessionStorage.setItem("token",res.data);
+        signIn();
         router.push("/");
     }).catch(function(error){
         console.log(error);
