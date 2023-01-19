@@ -20,11 +20,11 @@ const inter = Inter({ subsets: ['latin'] })
 // }
 
 export default async function Component() {
-  // const router = useRouter();
+  const router = useRouter();
   const { data: session } = useSession()
-  // if (!session){
-  //   router.push("/signin")
-  // }
+  if (!session?.user?.email){
+    router.push("/signin")
+  }
   return (
     <div className='flex justify-center p-20 flex-col'>
       <p >Hello ! your email is <span className=' underline'>{session?.user?.email}</span></p>
